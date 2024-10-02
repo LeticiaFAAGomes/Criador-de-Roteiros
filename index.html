@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Criador de Roteiros de Aula</title>
+    <link rel="stylesheet" href="static/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Criador de Roteiros de Aula</h1>
+      <form id="form" action="/resumir" method="post" enctype="multipart/form-data">
+        <label for="disciplina">Disciplina: *</label>
+        <input type="text" name="disciplina" id="disciplina" placeholder="Ex.: Microsserviços" required />
+        <label for="publico_alvo">Público Alvo: *</label>
+        <input type="text" name="publico_alvo" id="publico_alvo" placeholder="Ex.: Universitário" required />
+        <input type="file" name="pdf" id="pdf" />
+        <button id="botaoResumo">Resumir</button>
+      </form>
+    </div>
+    <script src="/static/script.js"></script>
+  </body>
+</html>

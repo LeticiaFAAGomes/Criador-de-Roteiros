@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+}
+
+h1,
+h2 {
+  margin: 20px 0;
+}
+
+.container {
+  margin: 40px 0;
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.container input {
+  margin-bottom: 20px;
+  padding: 6px;
+}
+
+.container input[type="file"] {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid black;
+}
+
+.container button {
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.container button:hover {
+  background-color: rgb(66, 66, 66);
+}
