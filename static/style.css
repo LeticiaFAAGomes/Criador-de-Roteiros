@@ -6,9 +6,15 @@
   font-family: "Open Sans", sans-serif;
 }
 
+body {
+  background-color: #00021a;
+  color: white;
+}
+
 h1,
 h2 {
   margin: 20px 0;
+  color: #8288c3;
 }
 
 .container {
@@ -25,21 +31,34 @@ h2 {
   flex-direction: column;
 }
 
+.container label {
+  margin-bottom: 10px;
+  color: rgb(228, 243, 255);
+  font-weight: 600;
+}
+
+.container label b {
+  color: rgba(236, 78, 78, 0.705);
+}
+
 .container input {
   margin-bottom: 20px;
-  padding: 6px;
+  padding: 10px;
+  background-color: #0a0b1d;
+  border: 1px solid #1f2256;
+  color: #fff;
+  outline: none;
 }
 
 .container input[type="file"] {
-  margin-bottom: 20px;
   padding: 20px;
-  border: 1px solid black;
 }
 
 .container button {
   padding: 10px;
-  background-color: black;
-  color: white;
+  background-color: #5e6be3;
+  color: #000;
+  font-weight: 650;
   border: none;
   border-radius: 3px;
   cursor: pointer;
@@ -47,5 +66,5 @@ h2 {
 }
 
 .container button:hover {
-  background-color: rgb(66, 66, 66);
+  background-color: #434ea9;
 }
