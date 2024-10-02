@@ -14,7 +14,7 @@ body {
 h1,
 h2 {
   margin: 20px 0;
-  color: #8288c3;
+  color: #8299c3;
 }
 
 .container {
@@ -45,18 +45,27 @@ h2 {
   margin-bottom: 20px;
   padding: 10px;
   background-color: #0a0b1d;
-  border: 1px solid #1f2256;
+  border: 1px solid #1f3056;
   color: #fff;
   outline: none;
 }
 
 .container input[type="file"] {
   padding: 20px;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  padding: 8px;
+  background-color: #5e93e3;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
 }
 
 .container button {
   padding: 10px;
-  background-color: #5e6be3;
+  background-color: #5e8de3;
   color: #000;
   font-weight: 650;
   border: none;
@@ -66,5 +75,5 @@ h2 {
 }
 
 .container button:hover {
-  background-color: #434ea9;
+  background-color: #4367a9;
 }
