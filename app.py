@@ -82,7 +82,7 @@ def extrair_texto_pdf(caminho_pdf):
             text += texto_pagina.strip()
     return text
 
-def resumir(documento, nivel_detalhe, publico_alvo="geral", foco=None, paragrafos=1):
+def resumir(documento, nivel_detalhe, publico_alvo, foco=None, paragrafos=1):
     prompt = f"Resuma esse texto em um {nivel_detalhe}, para um público {publico_alvo}. "
     if foco:
         prompt += f"Dê especial atenção a {foco}. "
