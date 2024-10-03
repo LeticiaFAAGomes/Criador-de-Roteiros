@@ -1,0 +1,6 @@
+flask
+weasyprint
+google-generativeai
+markdown
+PyPDF2
+python-dotenv

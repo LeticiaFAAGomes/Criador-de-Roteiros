@@ -1,10 +1,12 @@
+from weasyprint import HTML
 from flask import Flask, request, send_from_directory, send_file
 import google.generativeai as genai
 import markdown
 import os
 import PyPDF2
-os.environ['PATH']='C:/Program Files/GTK3-Runtime Win64/bin/'+ os.pathsep + os.environ['PATH']
-from weasyprint import HTML
+from dotenv import load_dotenv
+os.environ['PATH'] = 'C:/Program Files/GTK3-Runtime Win64/bin/' + \
+    os.pathsep + os.environ['PATH']
 
 """
 Se você estiver executando o projeto no Windows, pode ser necessário instalar o GTK3-Runtime:
@@ -13,12 +15,15 @@ https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releas
 Gerar chave para GEMINI_KEY: https://aistudio.google.com/app/apikey?hl=pt-br
 """
 
-GEMINI_KEY = "INSIRA_SUA_CHAVE"
+load_dotenv()
+
+GEMINI_KEY = os.getenv('GEMINI_KEY')
 
 genai.configure(api_key=GEMINI_KEY)
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 
 app = Flask(__name__)
+
 
 @app.route('/')
 def home():
@@ -29,6 +34,7 @@ def home():
         file: Arquivo HTML da página inicial.
     """
     return send_from_directory('.', 'index.html')
+
 
 @app.route('/resumir', methods=['POST'])
 def funcoes_texto():
@@ -47,20 +53,29 @@ def funcoes_texto():
     publico_alvo = request.form.get('publico_alvo')
     uploaded = request.files.get('pdf')
 
-    uploaded.save('pdf/roteiro_temp.pdf')
-    texto = extrair_texto_pdf('pdf/roteiro_temp.pdf')
-    os.remove('pdf/roteiro_temp.pdf')  
+    pdf_directory = 'pdf'
+    if not os.path.exists(pdf_directory):
+        os.makedirs(pdf_directory)
+
+    pdf_temp_path = os.path.join(pdf_directory, 'roteiro_temp.pdf')
+    uploaded.save(pdf_temp_path)
+
+    texto = extrair_texto_pdf(pdf_temp_path)
+
+    os.remove(pdf_temp_path)
+
     resumo = resumir(texto, "sumário executivo", publico_alvo=publico_alvo)
     roteiro = criar_roteiro(
         documento=texto,
         disciplina=disciplina,
         publico_alvo=publico_alvo,
         resumo=resumo
-        )
+    )
     html = convert_markdown_to_html(roteiro)
     filename = uploaded.filename
     pdf_path = convert_html_to_pdf(html, filename)
     return send_file(pdf_path, as_attachment=True)
+
 
 def extrair_texto_pdf(caminho_pdf):
     """
@@ -82,8 +97,10 @@ def extrair_texto_pdf(caminho_pdf):
             text += texto_pagina.strip()
     return text
 
+
 def resumir(documento, nivel_detalhe, publico_alvo, foco=None, paragrafos=1):
-    prompt = f"Resuma esse texto em um {nivel_detalhe}, para um público {publico_alvo}. "
+    prompt = f"Resuma esse texto em um {
+        nivel_detalhe}, para um público {publico_alvo}. "
     if foco:
         prompt += f"Dê especial atenção a {foco}. "
 
@@ -93,12 +110,13 @@ def resumir(documento, nivel_detalhe, publico_alvo, foco=None, paragrafos=1):
     response = model.generate_content([documento, prompt])
     return response.text
 
+
 def criar_roteiro(
         documento,
         disciplina,
-        publico_alvo,
         resumo=None,
         formato="markdown",
+        publico_alvo="universitário",
         duracao="60 minutos"
         ):
     """
@@ -124,14 +142,14 @@ def criar_roteiro(
     prompt_roteiro = f"""
         Você é um assistente especializado em pedagogia e ensino. Vou fornecer
         o texto de um capítulo de um livro. Sua tarefa é criar um roteiro de
-        aula para a disciplina {disciplina} a ser ministrada em {duracao} minutos,
+        aula para a disciplina {disciplina} a ser ministrada em {duracao},
         cujo público alvo é {publico_alvo}.
         O roteiro deve apresentar os principais tópicos do capítulo e seus respectivos resumos.
         O resultado deve ser organizado no formato {formato}.
 
             Estrutura esperada:
 
-            1. Divida a aula em blocos de tempo que cubram os {duracao} minutos.
+            1. Divida a aula em blocos de tempo que cubram os {duracao}.
             2. Identifique e destaque os tópicos principais.
             3. Inclua breves resumos de cada tópico.
             4. Formate o resultado em {formato}, com títulos, subtítulos e listas,
@@ -144,6 +162,7 @@ def criar_roteiro(
 
     documento_completo = f"## Resumo\n{resumo}\n\n## Roteiro\n{roteiro}"
     return documento_completo
+
 
 def convert_markdown_to_html(markdown_text):
     """
@@ -158,6 +177,7 @@ def convert_markdown_to_html(markdown_text):
     html_content = markdown.markdown(markdown_text)
     return html_content
 
+
 def convert_html_to_pdf(html_content, filename):
     """
     Converte conteúdo HTML para PDF.
@@ -169,10 +189,12 @@ def convert_html_to_pdf(html_content, filename):
     Returns:
         str: Caminho do arquivo PDF gerado.
     """
-    output = os.path.join('pdf', os.path.splitext(filename)[0] + "-roteiro.pdf")
+    output = os.path.join('pdf', os.path.splitext(
+        filename)[0] + "-roteiro.pdf")
     HTML(string=html_content).write_pdf(output)
     print("PDF gerado com sucesso: " + output)
     return output
+
 
 if __name__ == '__main__':
     app.run(debug=True)
