@@ -18,8 +18,7 @@ h2 {
 }
 
 .container {
-  margin: 40px 0;
-  min-height: 40vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,6 +38,10 @@ h2 {
 
 .container label b {
   color: rgba(236, 78, 78, 0.705);
+}
+
+.container label span {
+  font-size: 12px;
 }
 
 .container input {
@@ -76,4 +79,43 @@ input[type="file"]::file-selector-button {
 
 .container button:hover {
   background-color: #4367a9;
+}
+
+.fundo {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(4, 7, 12, 0.904);
+}
+
+.spinner {
+  width: 55px;
+  height: 55px;
+  border: 4px solid rgba(243, 243, 243, 0.068);
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.sucesso p {
+  margin-bottom: 150px;
+}
+
+.aparecer {
+  display: flex;
 }

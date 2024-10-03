@@ -1,4 +1,3 @@
-from weasyprint import HTML
 from flask import Flask, request, send_from_directory, send_file
 import google.generativeai as genai
 import markdown
@@ -7,6 +6,7 @@ import PyPDF2
 from dotenv import load_dotenv
 os.environ['PATH'] = 'C:/Program Files/GTK3-Runtime Win64/bin/' + \
     os.pathsep + os.environ['PATH']
+from weasyprint import HTML
 
 """
 Se você estiver executando o projeto no Windows, pode ser necessário instalar o GTK3-Runtime:
@@ -51,6 +51,7 @@ def funcoes_texto():
     """
     disciplina = request.form.get('disciplina')
     publico_alvo = request.form.get('publico_alvo')
+    duracao = request.form.get('duracao_aula')
     uploaded = request.files.get('pdf')
 
     pdf_directory = 'pdf'
@@ -69,6 +70,7 @@ def funcoes_texto():
         documento=texto,
         disciplina=disciplina,
         publico_alvo=publico_alvo,
+        duracao=f"{duracao} minutos",
         resumo=resumo
     )
     html = convert_markdown_to_html(roteiro)
@@ -114,11 +116,11 @@ def resumir(documento, nivel_detalhe, publico_alvo, foco=None, paragrafos=1):
 def criar_roteiro(
         documento,
         disciplina,
+        publico_alvo,
+        duracao,
         resumo=None,
-        formato="markdown",
-        publico_alvo="universitário",
-        duracao="60 minutos"
-        ):
+        formato="markdown"
+    ):
     """
     Cria um documento completo com resumo e roteiro de aula.
 

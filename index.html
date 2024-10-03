@@ -14,9 +14,19 @@
         <input type="text" name="disciplina" id="disciplina" placeholder="Ex.: Microsserviços" required />
         <label for="publico_alvo">Público Alvo: <b>*</b></label>
         <input type="text" name="publico_alvo" id="publico_alvo" placeholder="Ex.: Universitário" required />
-        <input type="file" name="pdf" id="pdf" />
-        <button id="botaoResumo">Resumir</button>
+        <label for="duracao_aula">Duração <span>(min)</span>: <b>*</b></label>
+        <input type="number" name="duracao_aula" id="duracao_aula" placeholder="Ex.: 60" min="10" pattern="[1-9][0-9]*" required />
+        <label for="pdf">Arquivo: <b>*</b></label>
+        <input type="file" name="pdf" id="pdf" required />
+        <button onclick="carregar()">Resumir</button>
       </form>
+    </div>
+    <div id="carregando" class="fundo carregando">
+      <div class="spinner" role="status"></div>
+    </div>
+    <div id="sucesso" class="fundo sucesso">
+      <h1>Roteiro gerado com sucesso!</h1>
+      <p>Em alguns instantes o download começará!</p>
     </div>
     <script src="/static/script.js"></script>
   </body>
