@@ -36,7 +36,7 @@ def home():
     return send_from_directory('.', 'index.html')
 
 
-@app.route('/resumir', methods=['POST'])
+@app.route('/', methods=['POST'])
 def funcoes_texto():
     """
     Recebe todas as funções do app.py e cria um documento completo com resumo e roteiro de aula.
@@ -101,8 +101,7 @@ def extrair_texto_pdf(caminho_pdf):
 
 
 def resumir(documento, nivel_detalhe, publico_alvo, foco=None, paragrafos=1):
-    prompt = f"Resuma esse texto em um {
-        nivel_detalhe}, para um público {publico_alvo}. "
+    prompt = f"Resuma esse texto em um {nivel_detalhe}, para um público {publico_alvo}. "
     if foco:
         prompt += f"Dê especial atenção a {foco}. "
 
